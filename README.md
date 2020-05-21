@@ -1,7 +1,10 @@
 # oli_final
 
 Graphics Final Project
+
 Tentative List of Things to be added:
+
+Existing
 1. Light
 2. Mesh
 3. Set
