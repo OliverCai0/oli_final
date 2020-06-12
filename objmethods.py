@@ -8,13 +8,14 @@ groups = {}
 def parse_obj(file):
     global mesh_v
     global groups
-    quads = []
-    triangles = []
-    g = None
-    count = 0
+    #quads = []
+    #triangles = []
+    polygons = []
+    #g = None
+    #count = 0
     v_index = 1
     for index in range(len(file)):
-        print(file[index])
+       # print(file[index])
         if 'v ' in file[index]:
             mesh_v[str(v_index)] = file[index].split(' ')
             v_index += 1
@@ -30,33 +31,68 @@ def parse_obj(file):
             face = file[index].split(' ')
             if len(face) > 4:
                 if float(face[1]) >= 0:
-                    quads.append(mesh_v[face[1]][1:]) 
-                    quads.append(mesh_v[face[2]][1:])
-                    quads.append(mesh_v[face[3]][1:]) 
-                    quads.append(mesh_v[face[4]][1:])
+
+                    v1 = [float(x) for x in mesh_v[face[1]][1:]]
+                    v2 = [float(x) for x in mesh_v[face[2]][1:]]
+                    v3 = [float(x) for x in mesh_v[face[3]][1:]]
+                    v4 = [float(x) for x in mesh_v[face[4]][1:]]
+                    add_polygon(polygons,v1[0],v1[1],v1[2],
+                                v2[0],v2[1],v2[2],
+                                v3[0],v3[1],v3[2])
+                    add_polygon(polygons,v3[0],v3[1],v3[2],
+                                v4[0],v4[1],v4[2],
+                                v1[0],v1[1],v1[2])
+
+                    # quads.append(mesh_v[face[1]][1:]) 
+                    # quads.append(mesh_v[face[2]][1:])
+                    # quads.append(mesh_v[face[3]][1:]) 
+                    # quads.append(mesh_v[face[4]][1:])
                     
                 else:
-                    quads.append(mesh_v[len(mesh_v) + face[1]][1:]) 
-                    quads.append(mesh_v[len(mesh_v) + face[2]][1:])
-                    quads.append(mesh_v[len(mesh_v) + face[3]][1:]) 
-                    quads.append(mesh_v[len(mesh_v) + face[4]][1:])
+
+                    v1 = [float(x) for x in mesh_v[len(mesh_v) + face[1]][1:]]
+                    v2 = [float(x) for x in mesh_v[len(mesh_v) + face[2]][1:]]
+                    v3 = [float(x) for x in mesh_v[len(mesh_v) + face[3]][1:]]
+                    v4 = [float(x) for x in mesh_v[len(mesh_v) + face[4]][1:]]
+                    # quads.append(mesh_v[len(mesh_v) + face[1]][1:]) 
+                    # quads.append(mesh_v[len(mesh_v) + face[2]][1:])
+                    # quads.append(mesh_v[len(mesh_v) + face[3]][1:]) 
+                    # quads.append(mesh_v[len(mesh_v) + face[4]][1:])
 
             else:
                 if float(face[1]) >= 0:
-                    triangles.append(mesh_v[face[1]][1:]) 
-                    triangles.append(mesh_v[face[2]][1:])
-                    triangles.append(mesh_v[face[3]][1:])
+                    v1 = [float(x) for x in mesh_v[face[1]][1:]]
+                    v2 = [float(x) for x in mesh_v[face[2]][1:]]
+                    v3 = [float(x) for x in mesh_v[face[3]][1:]]
+
+                    add_polygon(polygons,v1[0],v1[1],v1[2],
+                                v2[0],v2[1],v2[2],
+                                v3[0],v3[1],v3[2])
+                    # triangles.append(mesh_v[face[1]][1:]) 
+                    # triangles.append(mesh_v[face[2]][1:])
+                    # triangles.append(mesh_v[face[3]][1:])
                     
                 else:
-                    triangles.append(mesh_v[len(mesh_v) + face[1]][1:]) 
-                    triangles.append(mesh_v[len(mesh_v) + face[2]][1:])
-                    triangles.append(mesh_v[len(mesh_v) + face[3]][1:])
-                                   
-            count += 1
 
-    return (quads,triangles)
+                    v1 = [float(x) for x in mesh_v[len(mesh_v) + face[1]][1:]]
+                    v2 = [float(x) for x in mesh_v[len(mesh_v) + face[2]][1:]]
+                    v3 = [float(x) for x in mesh_v[len(mesh_v) + face[3]][1:]]
+
+                    add_polygon(polygons,v1[0],v1[1],v1[2],
+                                v2[0],v2[1],v2[2],
+                                v3[0],v3[1],v3[2])
+
+                    # triangles.append(mesh_v[len(mesh_v) + face[1]][1:]) 
+                    # triangles.append(mesh_v[len(mesh_v) + face[2]][1:])
+                    # triangles.append(mesh_v[len(mesh_v) + face[3]][1:])
+                                   
+            #count += 1
+
+    return polygons
 
 def draw_mesh(quads,triangles,screen,zbuffer,color):
+
+
     if quads:
         
         for index in range(int(len(quads)/4)):
