@@ -68,7 +68,6 @@ def first_pass( commands ):
   appropirate value.
   ===================="""
 def second_pass( commands, num_frames ):
-    knobs = []
     frames = [ {} for i in range(num_frames) ]
 
     for command in commands:
@@ -87,16 +86,43 @@ def second_pass( commands, num_frames ):
                 print('Invalid vary command for knob: ' + knob_name)
                 exit()
 
-            delta = (end_value - start_value) / (end_frame - start_frame)
+            if not command['vary_type'] or command['vary_type'] == 'linear':
 
-            for f in range(num_frames):
-                if f == start_frame:
-                    value = start_value
-                    frames[f][knob_name] = value
-                elif f >= start_frame and f <= end_frame:
-                    value = start_value + delta * (f - start_frame)
-                    frames[f][knob_name] = value
+
+                delta = (end_value - start_value) / (end_frame - start_frame)
+
+                for f in range(num_frames):
+                    if f == start_frame:
+                        value = start_value
+                        frames[f][knob_name] = value
+                    elif f >= start_frame and f <= end_frame:
+                        value = start_value + delta * (f - start_frame)
+                        frames[f][knob_name] = value
                 #print 'knob: ' + knob_name + '\tvalue: ' + str(frames[f][knob_name])
+            elif command['vary_type'] == 'exponential':
+
+                multiplier = (end_value / start_value) ** (1/float(end_frame - start_frame))
+
+                for f in range(num_frames):
+                    if f == start_frame:
+                        value = start_value
+                        frames[f][knob_name] = value
+                    elif f >= start_frame and f<=end_frame:
+                        value = value * multiplier
+                        frames[f][knob_name] = value
+            
+            elif command['vary_type'] == 'quadratic':
+
+                A = (end_value - start_value) / ((end_frame - start_frame) ** 2)
+                B = 2 * start_frame * A
+
+                for f in range(num_frames):
+                    if f == start_frame:
+                        value = start_value
+                        frames[f][knob_name] = value
+                    elif f >= start_frame and f<= end_frame:
+                        value = (2 * A * value + B) + value
+                        frames[f][knob_name] = value
         
     return frames
 

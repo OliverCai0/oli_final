@@ -1,3 +1,2 @@
-mesh : obj_map
+mesh :room_map
 display
-save lamp.png
