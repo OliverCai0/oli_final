@@ -15,7 +15,7 @@ def parse_obj(file):
     #count = 0
     v_index = 1
     for index in range(len(file)):
-        print(file[index])
+        #print(file[index])
         if 'v ' in file[index]:
             mesh_v[str(v_index)] = file[index].split(' ')
             v_index += 1

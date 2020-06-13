@@ -38,7 +38,7 @@ def first_pass( commands ):
             nameCheck = True
 
         elif command['op'] == 'light':
-            lights = command['light']
+            lights.append(command['light'])
 
     if varyCheck and not frameCheck:
         print('Error: Vary command found without setting number of frames!')
@@ -100,15 +100,20 @@ def second_pass( commands, num_frames ):
                         frames[f][knob_name] = value
                 #print 'knob: ' + knob_name + '\tvalue: ' + str(frames[f][knob_name])
             elif command['vary_type'] == 'exponential':
+                if start_value == 0:
+                    start_value = .01
+                b = pow(end_value / start_value, 1/(end_frame - start_frame))
+                a = start_value / pow(b, start_frame)
 
-                multiplier = (end_value / start_value) ** (1/float(end_frame - start_frame))
+            
+
 
                 for f in range(num_frames):
                     if f == start_frame:
                         value = start_value
                         frames[f][knob_name] = value
                     elif f >= start_frame and f<=end_frame:
-                        value = value * multiplier
+                        value = a * pow(b, f)
                         frames[f][knob_name] = value
             
             elif command['vary_type'] == 'quadratic':

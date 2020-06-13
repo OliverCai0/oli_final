@@ -16,8 +16,8 @@ from display import *
 AMBIENT = 0
 DIFFUSE = 1
 SPECULAR = 2
-LOCATION = 0
-COLOR = 1
+LOCATION = 1
+COLOR = 0
 SPECULAR_EXP = 4
 
 #lighting functions
@@ -25,8 +25,11 @@ def get_lighting(normal, view, ambient, light, symbols, reflect ):
 
     first = True
     for lights in light:
-        light_c = [symbols[lights][1]['color'],symbols[lights][1]['location']]
-        #print(lights)
+        #print(light)
+        #print(symbols[lights])
+        light_c = [symbols[lights][1]['location'],symbols[lights][1]['color']]
+        #print(light_c)
+        #print(light_c)
         n = normal[:]
         normalize(n)
         normalize(light_c[LOCATION])

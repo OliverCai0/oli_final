@@ -1,2 +1,47 @@
-mesh :room_map
-display
+frames 100
+basename teapotheist
+vary mobover 0 39 0 1 linear
+vary mobdown 40 69 0 1 linear
+vary coover 70 99 0 1 quadratic
+light policered 400 0 0 400 400 200
+light policeblue 0 0 400 -400 400 200
+constants bronze 0.2125 0.714 0.393548 0.1275 0.4284 0.271906 0.054 0.18144 0.166721
+sphere 500 500 255 100
+push
+scale 1.5 1.5 1.5
+move 100 -30 -500
+push
+constants shiny_purple 0.2 0.3 0.7 0.0 0.0 0.0 0.0 0.3 0.7
+move 0 300 800 mobover
+move 0 -300 0 mobdown
+move 400 0 0 coover
+mesh shiny_purple :mob_map
+pop
+pop
+push
+move 0 10 0
+box 0 0 0 500 100 100
+push
+move -100 -10 -100
+mesh :obj_map
+pop
+pop
+push
+move 200 -10 -100
+mesh :obj_map
+pop
+push
+move 250 0 -500
+scale 8 8 -8
+mesh :tea_map
+pop
+push
+move 0 0 200
+rotate y 30
+mesh bronze :cow_map
+pop
+push
+scale .5 .5 .5
+move 100 100 50
+move 500 0 0 coover
+mesh bronze :cow_map

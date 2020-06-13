@@ -316,6 +316,7 @@ def p_command_constants(p):
 def p_command_light(p):
     "command : LIGHT SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER"
     symbols[p[2]] = ['light', {'location' : p[3:6], 'color' : p[6:]}]
+    print(symbols[p[2]])
     cmd = {'op':p[1], 'args' : None, 'light' : p[2] }
     commands.append(cmd)
 
@@ -341,14 +342,21 @@ def p_command_mesh(p):
                | MESH SYMBOL CO TEXT SYMBOL"""
     cmd = {'op':p[1], 'args' : [], 'cs':None, 'constants':None}
     arg_start = 2
-    if isinstance(p[2], str):
+    #rint(len(p))
+    if len(p) == 4:
+        cmd['args'].append(p[3])
+    elif len(p) == 5:
         cmd['constants'] = p[2]
-        arg_start+= 1
-    cmd['args'].append(p[arg_start])
-    if len(p) == 4 and isinstance(p[3], str):
-        cmd['cs'] = p[3]
-    if len(p) == 5 and isinstance(p[4], str):
-        cmd['cs'] = p[4]
+        cmd['args'].append(p[4])
+    # if len(p) == 3 and isinstance(p[2], str):
+    #     cmd['constants'] = p[2]
+    #     arg_start+= 1
+    #     print('KAY')
+    # cmd['args'].append(p[3])
+    # if len(p) == 4 and isinstance(p[3], str):
+    #     cmd['cs'] = p[3]
+    # if len(p) == 5 and isinstance(p[4], str):
+    #     cmd['cs'] = p[4]
     commands.append(cmd)
 
 def p_save_knobs(p):
