@@ -7,16 +7,16 @@
 
 1. Light
 
-...Multiple light sources can be added to the symbol table
+   Multiple light sources can be added to the symbol table
 
 2. Mesh
 
-...Simple obj files can be processed and added to the polygon matrix with the mesh command.
+   Simple obj files can be processed and added to the polygon matrix with the mesh command.
 
 3. Save_Coordinate_System
 
-...Copy of top of stack can be saved to the symbol table
+   Copy of top of stack can be saved to the symbol table
 
 4. Additional vary behavior change.
 
-...Added exponential vary behavior - credits to Mohidul for helping me improve my initial code.
+   Added exponential vary behavior - credits to Mohidul for helping me improve my initial code.
